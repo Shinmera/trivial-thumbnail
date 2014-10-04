@@ -33,8 +33,8 @@
            #+unix #p"/usr/bin/"
            #+unix #p"/usr/local/bin/"
            #+windows #p"C:/windows/system32/x.exe"
-           #+windows (first (uiop:directory-files #p"C:/Program Files/ImageMagic*/x.exe"))
-           #+windows (first (uiop:directory-files #p"C:/Program Files (x86)/ImageMagic*/x.exe")))))
+           #+windows (first (uiop:directory-files #p"C:/Program Files/ImageMagick*/x.exe"))
+           #+windows (first (uiop:directory-files #p"C:/Program Files (x86)/ImageMagick*/x.exe")))))
 
 (defun locate-binary (label &rest alternatives)
   "Iterates through the alternatives and, if one can be found by PROBE-FILE, sets the SYMBOL-VALUE of LABEL to that path.
