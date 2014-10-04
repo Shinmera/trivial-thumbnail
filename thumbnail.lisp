@@ -28,19 +28,22 @@
 (defun binary-alternatives (binary-name)
   "Return a list of poissible alternative locations for the specified binary."
   (mapcar #'(lambda (path)
-              (merge-pathnames (make-pathname :name binary-name) path))
+              (let ((path (merge-pathnames (make-pathname :name binary-name) path)))
+                (if (wild-pathname-p path)
+                    (first (uiop:directory-files path #p""))
+                    path)))
           (list
            #+unix #p"/usr/bin/"
            #+unix #p"/usr/local/bin/"
            #+windows #p"C:/windows/system32/x.exe"
-           #+windows (first (uiop:directory-files #p"C:/Program Files/ImageMagick*/x.exe"))
-           #+windows (first (uiop:directory-files #p"C:/Program Files (x86)/ImageMagick*/x.exe")))))
+           #+windows #p"C:/Program Files/ImageMagick*/x.exe"
+           #+windows #p"C:/Program Files (x86)/ImageMagick*/x.exe")))
 
 (defun locate-binary (label &rest alternatives)
   "Iterates through the alternatives and, if one can be found by PROBE-FILE, sets the SYMBOL-VALUE of LABEL to that path.
 Otherwise signals a WARNING."
   (let ((location (loop for alt in alternatives
-                        thereis (probe-file alt))))
+                        thereis (and alt (probe-file alt)))))
     (if location
         (setf (symbol-value label) location)
         (warn "No binary for ~a found! Please adapt THUMBNAIL:~:*~a with the proper pathname if the commands don't work." label))))
