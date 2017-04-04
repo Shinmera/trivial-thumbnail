@@ -6,38 +6,41 @@
           font-size: 14pt;
           padding: 5px;
       }
-
       body>header{
           display:flex;
           align-items: center;
           justify-content: center;
           flex-direction: column;
           max-width: 100%;
+          text-align: center;
       }
-
+      body>header img{
+          max-width: 50%;
+      }
       img{
           max-width: 100%;
           max-height: 100%;
       }
-
       code{
           font-family: Consolas, Inconsolata, monospace;
       }
-
       a{
           text-decoration: none;
           color: #0055AA;
       }
-
+      a img{
+          border: none;
+      }
       #documentation{
           text-align: justify;
       }
-
       #documentation pre{
           margin-left: 20px;
           overflow: auto;
       }
-
+      #documentation img{
+          margin: 5px;
+      }
       #symbol-index>ul{
           list-style: none;
           padding: 0;
@@ -68,7 +71,6 @@
           white-space: pre-wrap;
           font-size: 12pt;
       }
-
       @media (max-width: 800px){
           body{font-size: 12pt;}
       } </style> </head> <body> <header> <h1>trivial-thumbnail</h1> <span class="version">1.0.0</span> <p class="description">Tiny library to create image thumbnails with imagemagick.</p> </header> <main> <article id="documentation">  <div><h2>About Trivial-Thumbnail</h2> <p>A tiny library to create thumbnails with <a href="http://www.imagemagick.org/">ImageMagick</a>. The binaries <code><a href="#TRIVIAL-THUMBNAIL:CONVERT">convert</a></code> and <code><a href="#TRIVIAL-THUMBNAIL:MOGRIFY">mogrify</a></code> need to be available on your system for this to work.</p> <h2>How To</h2> <p>The main function to use is <code><a href="#TRIVIAL-THUMBNAIL:CREATE">create</a></code>.</p> <pre><code>(<a href="#TRIVIAL-THUMBNAIL:CREATE">thumbnail:create</a> #p&quot;~/input.png&quot; #p&quot;~/input-thumb.png&quot;)
@@ -76,8 +78,8 @@
 </code></pre> <p>Of course it allows for different kinds of thumbnail generation with the <code>crop</code> argument:</p> <pre><code>(<a href="#TRIVIAL-THUMBNAIL:CREATE">thumbnail:create</a> #p&quot;~/input.png&quot; #p&quot;~/input-thumb.png&quot; :crop :WIDTH)
 (<a href="#TRIVIAL-THUMBNAIL:CREATE">thumbnail:create</a> #p&quot;~/input.png&quot; #p&quot;~/input-thumb.png&quot; :crop :HEIGHT)
 (<a href="#TRIVIAL-THUMBNAIL:CREATE">thumbnail:create</a> #p&quot;~/input.png&quot; #p&quot;~/input-thumb.png&quot; :crop T)
-</code></pre> <p>Using <code>:WIDTH</code> means that the image is first scaled down preserving the aspect ratio to fit into the given height and then crops the remaining width to fit the given width. <code>:HEIGHT</code> works similarly. <code>T</code> just crops the image without any scaling.</p> <p>This library uses ImageMagick mostly because it can handle gif animations properly, which a lot of other tools cannot. Processing animation is calculation-intensive though, so if you want to disable that (resulting in a static gif), you can pass <code>:preserve-gif NIL</code>.</p> <p>Trivial-Thumbnail attempts to locate the necessary binaries automatically, searching the usual paths such as <code>/usr/bin</code>, <code>/usr/local/bin</code> and <code>C:/windows/system32/</code>, <code>C:/Program Files/ImageMagick*/</code>. If it fails to find a suitable binary, it throws a warning at startup. When the binary is somewhere else, but still within your <code>PATH</code>, it should still work properly. Otherwise you will have to set <code><a href="#TRIVIAL-THUMBNAIL:*CONVERT-BIN*">*CONVERT-BIN*</a></code> and <code><a href="#TRIVIAL-THUMBNAIL:*MOGRIFY-BIN*">*MOGRIFY-BIN*</a></code> yourself.</p> </div>  </article> <article id="copyright">  <h2>Copyright</h2> <span>trivial-thumbnail</span> is licensed under the <span><a href="https://tldrlegal.com/search?q=Artistic">Artistic</a></span> license.  © <span>Nicolas Hafner &lt;shinmera@tymoon.eu&gt;</span> .  This library can be obtained on <a href="https://github.com/Shinmera/trivial-thumbnail">https://github.com/Shinmera/trivial-thumbnail</a>.  </article>  <article id="symbol-index"> <h2>Package Index</h2> <ul><li class="package"> <h3> <a name="TRIVIAL-THUMBNAIL" href="#TRIVIAL-THUMBNAIL">TRIVIAL-THUMBNAIL</a> <span class="nicknames">(ORG.TYMOONNEXT.TRIVIAL-THUMBNAIL THUMBNAIL)</span> </h3> <ul><li> <a name="TRIVIAL-THUMBNAIL:*CONVERT-BIN*"> </a> <article> <header class="special"> <span class="type">special</span>  <h4 class="name"><code><a href="#TRIVIAL-THUMBNAIL:*CONVERT-BIN*">*CONVERT-BIN*</a></code></h4>  </header> <pre class="docstring">String or pathname designating the location of the imagemagick CONVERT binary.</pre> </article> </li><li> <a name="TRIVIAL-THUMBNAIL:*MOGRIFY-BIN*"> </a> <article> <header class="special"> <span class="type">special</span>  <h4 class="name"><code><a href="#TRIVIAL-THUMBNAIL:*MOGRIFY-BIN*">*MOGRIFY-BIN*</a></code></h4>  </header> <pre class="docstring">String or pathname designating the location of the imagemagick MOGRIFY binary.</pre> </article> </li><li> <a name="TRIVIAL-THUMBNAIL:CONVERT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#TRIVIAL-THUMBNAIL:CONVERT">CONVERT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">IN OUT &amp;REST ARGS</code><code>)</code>  </header> <pre class="docstring">Runs imagemagick's CONVERT on IN with the result to OUT using the command-line ARGS.</pre> </article> </li><li> <a name="TRIVIAL-THUMBNAIL:CREATE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#TRIVIAL-THUMBNAIL:CREATE">CREATE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">IN OUT &amp;KEY (WIDTH 150) (HEIGHT 150) CROP (QUALITY 100) (PRESERVE-GIF T)
- (IF-EXISTS :ERROR)</code><code>)</code>  </header> <pre class="docstring">Creates a thumbnail of IN with the result to OUT.
+</code></pre> <p>Using <code>:WIDTH</code> means that the image is first scaled down preserving the aspect ratio to fit into the given height and then crops the remaining width to fit the given width. <code>:HEIGHT</code> works similarly. <code>T</code> just crops the image without any scaling.</p> <p>This library uses ImageMagick mostly because it can handle gif animations properly, which a lot of other tools cannot. Processing animation is calculation-intensive though, so if you want to disable that (resulting in a static gif), you can pass <code>:preserve-gif NIL</code>.</p> <p>Trivial-Thumbnail attempts to locate the necessary binaries automatically, searching the usual paths such as <code>/usr/bin</code>, <code>/usr/local/bin</code> and <code>C:/windows/system32/</code>, <code>C:/Program Files/ImageMagick*/</code>. If it fails to find a suitable binary, it throws a warning at startup. When the binary is somewhere else, but still within your <code>PATH</code>, it should still work properly. Otherwise you will have to set <code><a href="#TRIVIAL-THUMBNAIL:*CONVERT-BIN*">*CONVERT-BIN*</a></code> and <code><a href="#TRIVIAL-THUMBNAIL:*MOGRIFY-BIN*">*MOGRIFY-BIN*</a></code> yourself.</p> </div>  </article> <article id="copyright">  <h2>Copyright</h2> <span>trivial-thumbnail</span> is licensed under the <span><a href="https://tldrlegal.com/search?q=Artistic">Artistic</a></span> license.  © <span>Nicolas Hafner &lt;shinmera@tymoon.eu&gt;</span> .  This library can be obtained on <a href="https://github.com/Shinmera/trivial-thumbnail">https://github.com/Shinmera/trivial-thumbnail</a>.  </article>  <article id="symbol-index"> <h2>Package Index</h2> <ul><li class="package"> <h3> <a name="TRIVIAL-THUMBNAIL" href="#TRIVIAL-THUMBNAIL">TRIVIAL-THUMBNAIL</a> <span class="nicknames">(ORG.TYMOONNEXT.TRIVIAL-THUMBNAIL THUMBNAIL)</span> </h3> <ul><li> <a name="TRIVIAL-THUMBNAIL:*CONVERT-BIN*"> </a> <article> <header class="special"> <span class="type">special</span>  <h4 class="name"><code><a href="#TRIVIAL-THUMBNAIL:*CONVERT-BIN*">*CONVERT-BIN*</a></code></h4>  </header> <div class="docstring"><pre>String or pathname designating the location of the imagemagick CONVERT binary.</pre></div> </article> </li><li> <a name="TRIVIAL-THUMBNAIL:*MOGRIFY-BIN*"> </a> <article> <header class="special"> <span class="type">special</span>  <h4 class="name"><code><a href="#TRIVIAL-THUMBNAIL:*MOGRIFY-BIN*">*MOGRIFY-BIN*</a></code></h4>  </header> <div class="docstring"><pre>String or pathname designating the location of the imagemagick MOGRIFY binary.</pre></div> </article> </li><li> <a name="TRIVIAL-THUMBNAIL:CONVERT"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#TRIVIAL-THUMBNAIL:CONVERT">CONVERT</a></code></h4> <code class="qualifiers"></code> <code class="arguments">IN OUT &amp;REST ARGS</code><code>)</code>  </header> <div class="docstring"><pre>Runs imagemagick's CONVERT on IN with the result to OUT using the command-line ARGS.</pre></div> </article> </li><li> <a name="TRIVIAL-THUMBNAIL:CREATE"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#TRIVIAL-THUMBNAIL:CREATE">CREATE</a></code></h4> <code class="qualifiers"></code> <code class="arguments">IN OUT &amp;KEY (WIDTH 150) (HEIGHT 150) CROP (QUALITY 100) (PRESERVE-GIF T)
+ (IF-EXISTS :ERROR)</code><code>)</code>  </header> <div class="docstring"><pre>Creates a thumbnail of IN with the result to OUT.
 
 IN           --- A pathname or string to the source image. Strings are parsed using 
                  UIOP:PARSE-NATIVE-NAMESTRING.
@@ -99,4 +101,4 @@ IF-EXISTS    --- What to do if OUT exists. Can be one of the following:
                  :WARN      Signal a warning.
                  :SUPERSEDE Overwrite the file.
 
-Returns OUT.</pre> </article> </li><li> <a name="TRIVIAL-THUMBNAIL:MOGRIFY"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#TRIVIAL-THUMBNAIL:MOGRIFY">MOGRIFY</a></code></h4> <code class="qualifiers"></code> <code class="arguments">IN &amp;REST ARGS</code><code>)</code>  </header> <pre class="docstring">Runs imagemagick's MOGRIFY on IN using the command-line ARGS.</pre> </article> </li></ul> </li></ul> </article>  </main> </body> </html> 
+Returns OUT.</pre></div> </article> </li><li> <a name="TRIVIAL-THUMBNAIL:MOGRIFY"> </a> <article> <header class="function"> <span class="type">function</span>  <code>(</code><h4 class="name"><code><a href="#TRIVIAL-THUMBNAIL:MOGRIFY">MOGRIFY</a></code></h4> <code class="qualifiers"></code> <code class="arguments">IN &amp;REST ARGS</code><code>)</code>  </header> <div class="docstring"><pre>Runs imagemagick's MOGRIFY on IN using the command-line ARGS.</pre></div> </article> </li></ul> </li></ul> </article>  </main> </body> </html> 
