@@ -4,10 +4,6 @@
  Author: Nicolas Hafner <shinmera@tymoon.eu>
 |#
 
-(defpackage #:org.tymoonnext.trivial-thumbnail.asd
-  (:use #:cl #:asdf))
-(in-package #:org.tymoonnext.trivial-thumbnail.asd)
-
 (defsystem trivial-thumbnail
   :name "Trivial-Thumbnail"
   :version "1.0.0"
