@@ -6,7 +6,7 @@
 
 (defsystem trivial-thumbnail
   :name "Trivial-Thumbnail"
-  :version "1.0.0"
+  :version "1.1.0"
   :license "Artistic"
   :author "Nicolas Hafner <shinmera@tymoon.eu>"
   :maintainer "Nicolas Hafner <shinmera@tymoon.eu>"
@@ -14,4 +14,4 @@
   :homepage "https://github.com/Shinmera/trivial-thumbnail"
   :serial T
   :components ((:file "thumbnail"))
-  :depends-on ())
+  :depends-on (:uiop))

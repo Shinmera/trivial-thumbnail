@@ -74,7 +74,7 @@ passes the argslist to UIOP:ESCAPE-COMMAND. Also accepts a pathname as the execu
          (append args
                  (list (uiop:native-namestring in)))))
 
-(defun create (in out &key (width 150) (height 150) crop (quality 100) (preserve-gif T) (if-exists :error))
+(defun create (in out &key (width 150) (height width) crop (quality 100) (preserve-gif T) (if-exists :error))
   "Creates a thumbnail of IN with the result to OUT.
 
 IN           --- A pathname or string to the source image. Strings are parsed using 
@@ -84,10 +84,12 @@ OUT          --- A pathname or string to the source image or NIL. If NIL, OUT is
 WIDTH        --- The width of the thumbnail in pixels.
 HEIGHT       --- The height of the thumbnail in pixels.
 CROP         --- How to create the thumbnail. Can be one of the following:
-                 NIL     Scale the image, preserving the aspect ratio.
-                 :WIDTH  Scale the image to HEIGHT and crop the width down to fit WIDTH.
-                 :HEIGHT Scale the image to WIDTH and crop the height down to fit HEIGHT.
-                 T       Crop the image width and height to fit WIDTH and HEIGHT.
+                 NIL      Same as :CONTAIN
+                 :CONTAIN Scale the image to fit the larger dimension.
+                 :COVER   Scale the image to fit the lower dimension, then crop.
+                 :WIDTH   Scale the image to HEIGHT and crop the width down to fit WIDTH.
+                 :HEIGHT  Scale the image to WIDTH and crop the height down to fit HEIGHT.
+                 T        Crop the image width and height to fit WIDTH and HEIGHT.
 QUALITY      --- Percentage for the quality to use (0-100).
 PRESERVE-GIF --- Whether to run imagemagick with -coalesce, which preserves
                  GIF animations, but will take more time to compute.
@@ -107,6 +109,7 @@ Returns OUT."
           () "IN must be a pathname designating an existing file.")
   (assert (uiop:file-pathname-p out)
           () "OUT must be a pathname designating a file.")
+
   (when (uiop:file-exists-p out)
     (ecase if-exists
       ((NIL) (return-from create NIL))
@@ -125,8 +128,10 @@ Returns OUT."
                   (if preserve-gif "-coalesce" "")
                   args)))
     (ecase crop
-      ((NIL)
+      ((NIL :contain)
        (convert "-thumbnail" (format NIL "~dx~d" width height)))
+      (:cover
+       (convert "-thumbnail" (format NIL "~d^>" (min width height))))
       (:width
        (convert "-thumbnail" (format NIL "x~d" height))
        (mogrify "-gravity" "center" "-crop" (format NIL "~dx~d!+0+0" width height)))
