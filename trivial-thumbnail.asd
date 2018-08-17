@@ -11,7 +11,9 @@
   :author "Nicolas Hafner <shinmera@tymoon.eu>"
   :maintainer "Nicolas Hafner <shinmera@tymoon.eu>"
   :description "Tiny library to create image thumbnails with imagemagick."
-  :homepage "https://github.com/Shinmera/trivial-thumbnail"
+  :homepage "https://Shinmera.github.io/trivial-thumbnail/"
+  :bug-tracker "https://github.com/Shinmera/trivial-thumbnail/issues"
+  :source-control (:git "https://github.com/Shinmera/trivial-thumbnail.git")
   :serial T
   :components ((:file "thumbnail"))
   :depends-on (:uiop))
