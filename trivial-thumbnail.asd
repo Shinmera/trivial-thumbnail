@@ -7,7 +7,7 @@
 (defsystem trivial-thumbnail
   :name "Trivial-Thumbnail"
   :version "1.1.0"
-  :license "Artistic"
+  :license "zlib"
   :author "Nicolas Hafner <shinmera@tymoon.eu>"
   :maintainer "Nicolas Hafner <shinmera@tymoon.eu>"
   :description "Tiny library to create image thumbnails with imagemagick."
